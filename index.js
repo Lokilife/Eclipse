@@ -7,10 +7,10 @@ const version = require("./package.json").version;
 
 console.log(chalk.yellow(
     `Добро пожаловать в Eclipse!
-            Версия: ${version}.
-            Разработчики: [ElectroPlayer]#0256, Lokilife#7962.
-            Версия Node.JS: ${process.version}.
-            Версия Discord.JS: ${discord.version}.`));
+        Версия: ${version}.
+        Разработчики: [ElectroPlayer]#0256, Lokilife#7962.
+        Версия Node.JS: ${process.version}.
+        Версия Discord.JS: ${discord.version}.`));
 
 const client = new Client(
     {
