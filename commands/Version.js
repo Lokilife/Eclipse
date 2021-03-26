@@ -26,6 +26,8 @@ module.exports = {
         if(versions[ver].edit) embed.addField('Изменено:', versions[ver].edit);
         if(versions[ver].bugs) embed.addField('Исправления багов:',versions[ver].bugs);
         if(versions[ver].desc) embed.addField('Что нового:',versions[ver].desc);
+        if(versions[ver].del)  embed.addField('Удалено:',versions[ver].del);
+        if(versions[ver].teh)  embed.addField('Техническое:',versions[ver].teh);
 
         message.channel.send(embed);
 

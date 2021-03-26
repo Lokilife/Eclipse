@@ -37,8 +37,8 @@ module.exports = {
             return;
         }
 
-        let categories = [];
-        bot.commands.forEach(value => {if(categories.indexOf(value.help.category) == -1 && value.help.category != "Owners") categories.push(value.help.category)});
+        let categories = ["Общее", "Полезное", "Модерация", "Прочее"];
+        //bot.commands.forEach(value => {if(categories.indexOf(value.help.category) == -1 && value.help.category != "Owners") categories.push(value.help.category)});
 
         let emb         = new discord.MessageEmbed().setColor(config.colors.default).setTitle('Помощь').setDescription(`\`${config.prefix}help <команда>\` для углублённой помощи по команде'`).setFooter(footer)
         let numbers     = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"] //  Ты целый мап сделал для этого. Я разобрался одним массивом!
