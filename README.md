@@ -29,12 +29,10 @@ To start the bot, you need:
 3. Created config.json:
 ```json
 {
-    "prefix": "c.",
-    "token": "your token",
-    "mongo_uri": "URI",
-    "virusTotalApiKey": "API_KEY",
-    "owners": ["your ID", "ID of another author"],
-    "lang": "en",
+    "token": "your_bot_token",
+    "mongo_uri": "your_mongo_URI",
+    "prefix": "e.",
+    "owners": ["ID owner one", "ID owner two"],
     "colors": {
         "default": "525592",
         "errorRed": "cc0000",
