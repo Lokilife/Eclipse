@@ -13,7 +13,7 @@ module.exports = {
         return message.channel.send(
             new MessageEmbed().setColor(result == "Ошибка!" ? config.colors.errorRed : config.colors.default)
             .setTitle("Калькулятор")
-            .setDescription(`**Пример:** \`\`\`${args.join(" ")}\`\`\`\n**Итог:**\`\`\`${result}\`\`\``)
+            .setDescription(`**Пример:**\n\`\`\`${args.join(" ")}\`\`\`\n**Итог:**\n\`\`\`${result}\`\`\``)
         );
     },
     "aliases": ["calculator", "calc"],

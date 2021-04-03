@@ -1,7 +1,8 @@
-const { Client, Message } = require("discord.js")
-const CustomCommands = require("../models/custom-commands")
-const typeorm = require("typeorm")
-const config = require("../config.json")
+// eslint-disable-next-line no-unused-vars
+const { Client, Message } = require("discord.js");
+const CustomCommands = require("../models/custom-commands");
+const typeorm = require("typeorm");
+const config = require("../config.json");
 
 module.exports = {
     name: "message",
@@ -17,7 +18,7 @@ module.exports = {
               cmd          = messageArray[0].slice(config.prefix.length)
 
         const manager      = typeorm.getMongoManager(),
-              commandsRepo = manager.getMongoRepository(CustomCommands)
+              commandsRepo = manager.getMongoRepository(CustomCommands),
               command      = await commandsRepo.findOne({_id: message.guild.id, name: cmd})
         
         if (!command) return
