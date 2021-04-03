@@ -3,21 +3,21 @@ const EntitySchema = require("typeorm").EntitySchema;
 module.exports = new EntitySchema({
     name: "private_voices",
     columns: {
-        _id: {
+        _id: { // ID участника
             objectId: true,
             primary: true,
             type: "string"
         },
-        channelID: {
+        channelID: { // ID созданного канала (может быть пустым когда канал удалён)
             type: "string" 
         },
-        guildID: {
+        guildID: { // ID сервера
             type: "string"
         },
-        blockedUsers: {
+        blockedUsers: { // Заблокированные пользователи, массив ID
             type: "array"
         },
-        mutedUsers: {
+        mutedUsers: { // Замьюченные пользователи, массив ID
             type: "array"
         }
     }

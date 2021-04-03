@@ -31,21 +31,9 @@ const client = new Client(
 );
 
 client.loadAll();
-
-const connection = typeorm.createConnection({
-    type: "mongodb",
-    url: config.mongo_uri,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    synchronize: true,
-    entities: [
-        require("./models/custom"),
-        require("./models/guilds"),
-        require("./models/private-voices"),
-        require("./models/custom-commands"),
-        require("./models/role-reactions-settings")
-    ]
+client.on("ready", async () => { // Вызов setup у каждого листенера
+    for (const listener of client.listenersObjects)
+        if (typeof listener.setup == "function")
+            listener.setup(client)
 });
-module.exports.connection = connection;
-
 client.login(config.token);

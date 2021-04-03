@@ -2,7 +2,7 @@ const EntitySchema = require("typeorm").EntitySchema;
 
 module.exports = new EntitySchema({
     name: "custom",
-    columns: {
+    columns: { // This is mine territory, so here i don't write docs :).
         _id: { // Guild ID
             objectId: true,
             primary: true,

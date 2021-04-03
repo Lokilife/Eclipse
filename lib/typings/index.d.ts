@@ -1,5 +1,11 @@
 import discord from "discord.js";
 
+interface Listener {
+    setup?: any;
+    name: string;
+    run: any;
+}
+
 /**
  * Расширенные настройки клиента используемые в client.js
  * @implements {discord.ClientOptions}
@@ -13,7 +19,7 @@ interface ClientOptions implements discord.ClientOptions {
 /**
  * Настройки команды и всё в таком духе
  */
-export interface CommandOptions {
+interface CommandOptions {
     run: AsyncFunction;
     aliases: string[];
     ownerOnly?: boolean;

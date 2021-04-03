@@ -1,10 +1,8 @@
 {
     "token": "TOKEN",
     "mongo_uri": "URI",
-    "virusTotalApiKey": "API_KEY",
     "prefix": "PREFIX",
     "owners": ["OWNER_ID_1", "OWNER_ID_2"],
-    "lang": "en",
     "colors": {
         "default": "525592",
         "errorRed": "cc0000",

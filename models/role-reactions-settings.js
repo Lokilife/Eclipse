@@ -10,6 +10,9 @@ module.exports = new EntitySchema({
         },
         roles: { // Объект с парами ID-Эмоджи/Юникод-Эмоджи: ID-Роли
             type: "json"
+        },
+        enabled: { // Включены или нет
+            type: "boolean"
         }
     }
 });

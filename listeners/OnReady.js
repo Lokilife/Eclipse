@@ -2,7 +2,7 @@ const chalk = require('chalk');
 
 module.exports = {
     name: "ready",
-    run: (client) => {
+    run: async function (client) {
         
         console.log(chalk.cyan(
             `[Клиент] Бот успешно запущен!\n`+
