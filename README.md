@@ -8,15 +8,15 @@
 </p>
 
 # EclipseBot
-Eclipse это бот с открым исходным кодом, простjq в использовании и самодостаточный бот Discord, написанный на JavaScript.
+Eclipse это бот с открым исходным кодом, простой в использовании и самодостаточный бот Discord, написанный на JavaScript.
 
 ### Дисклеймер (Если самостоятельное размещение)
 Вам не разрешено загружать этого бота на какой либо сервис как discordbotlist или top.gg, вам только разрешено использовать его для вашего сообщества.
 
 
 ### Принять участие
-- [Сделайте форк репозитория](https://github.com/Elektroplayer/eclipsebot/fork)!
-- Клонируйте ваш форк: `git clone https://github.com/your-username/eclipsebot.git`
+- [Сделайте форк репозитория](https://github.com/Lokilife/Eclipse/fork)!
+- Клонируйте ваш форк: `git clone https://github.com/your-username/Eclipse.git`
 - Создайте свою ветвь функций: `git checkout -b my-new-feature`
 - Примените ваши изменения: `git commit -am 'Add some feature'`
 - Отправьте в репозиторий: `git push origin my-new-feature`
