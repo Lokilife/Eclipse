@@ -3,30 +3,31 @@
 
 <a href="https://discord.gg/PHuvYMrvdr"><img src="https://img.shields.io/discord/769184583123730432?color=7289da&logo=discord&logoColor=white"></a>
 <img src="https://img.shields.io/badge/made%20by-NightDevs-blue.svg" >
-<img src="https://img.shields.io/github/stars/Elektroplayer/eclipsebot.svg?style=flat">
-<img src="https://img.shields.io/github/languages/top/Elektroplayer/eclipsebot.svg">
+<img src="https://img.shields.io/github/stars/Lokilife/Eclipse.svg?style=flat">
+<img src="https://img.shields.io/github/languages/top/Lokilife/Eclipse.svg">
 </p>
 
 # EclipseBot
-EclipseBot is an open-source, easy to use & selfhostable Discord bot written in JavaScript.
+Eclipse это бот с открым исходным кодом, простjq в использовании и самодостаточный бот Discord, написанный на JavaScript.
 
-### Disclaimer (if self-hosted)
-You are not allowed to upload this bot to any service such as discordbotlist or top.gg, you are only allowed to host this bot for your community.
+### Дисклеймер (Если самостоятельное размещение)
+Вам не разрешено загружать этого бота на какой либо сервис как discordbotlist или top.gg, вам только разрешено использовать его для вашего сообщества.
 
-### Contributing
-- [Fork the repository](https://github.com/Elektroplayer/eclipsebot/fork)!
-- Clone your fork: `git clone https://github.com/your-username/eclipsebot.git`
-- Create your feature branch: `git checkout -b my-new-feature`
-- Commit your changes: `git commit -am 'Add some feature'`
-- Push to the branch: `git push origin my-new-feature`
-- Submit a pull request
 
-### Mini Wiki
+### Принять участие
+- [Сделайте форк репозитория](https://github.com/Elektroplayer/eclipsebot/fork)!
+- Клонируйте ваш форк: `git clone https://github.com/your-username/eclipsebot.git`
+- Создайте свою ветвь функций: `git checkout -b my-new-feature`
+- Примените ваши изменения: `git commit -am 'Add some feature'`
+- Отправьте в репозиторий: `git push origin my-new-feature`
+- Подтвердите pull request
 
-To start the bot, you need:
-1. Installed node.js.
-2. Installed dependencies. (Specified in [package.json](./package.json))
-3. Created config.json:
+### Мини Вики
+
+Чтобы запустить бота, вам необходимо:
+1. Установленный Node.JS.
+2. Установленные зависимости: `npm install`.
+3. Созданный config.json:
 ```json
 {
     "token": "your_bot_token",
@@ -42,17 +43,17 @@ To start the bot, you need:
 }
 ```
 
-**Please tell me about the bugs or optimization methods!**
+**Пожалуйста, расскажите мне об ошибках или методах оптимизации!**
 
 ### Authors
 **EclipseBot** © Night Devs<br>
-Authored by [Electroplayer](https://github.com/Elektroplayer) and [Lokilife](https://github.com/Lokilife)<br>
-[Bot support](https://discord.gg/PHuvYMrvdr)
+Авторы: [Electroplayer](https://github.com/Elektroplayer) и [Lokilife](https://github.com/Lokilife)<br>
+[Сервер поддержки бота](https://discord.gg/PHuvYMrvdr)
 
-### Acknowledgments
-Ueuecoyotl - Looks for grammatical errors. <br>
-Lookins - Looks for incorrectly working commands.<br>
-Autoplayer - Hosts the bot.<br>
+### Благодарности
+Ueuecoyotl - Ищет граматические ошибки.<br>
+Lookins - Ищет неправильно работающие команды.<br>
+Autoplayer - Держит бота на своём сервере.<br>
 
-### License
+### Лицензия
 [BSD 3-Clause](./LICENSE)
