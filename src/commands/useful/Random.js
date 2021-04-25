@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
-const errors  = require('../lib/errors.js');
-const config  = require('../../config.json');
-const tools   = require('../lib/tools.js');
+const errors  = require('../../lib/errors.js');
+const config  = require('../../../config.json');
+const tools   = require('../../lib/tools.js');
 
 const {MessageEmbed} = require('discord.js');
 

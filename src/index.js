@@ -2,6 +2,7 @@ const { version }                   = require('../package.json')
 const config                        = require('../config.json')
 const Client                        = require('./lib/client')
 const discord                       = require('discord.js')
+const mongoose                      = require('mongoose')
 const typeorm                       = require('typeorm')
 const chalk                         = require('chalk')
 
@@ -50,21 +51,11 @@ const port = 5000
 
 async function start() {
     try {
-        await typeorm.createConnection({
-            type: "mongodb",
-            url: config.mongo_uri,
+        await mongoose.connect(config.mongo_uri, {
             useNewUrlParser: true,
-            useUnifiedTopology: true,
-            synchronize: true,
-            entities: [
-                require("./models/users"),
-                require("./models/custom"),
-                require("./models/guilds"),
-                require("./models/private-voices"),
-                require("./models/custom-commands"),
-                require("./models/role-reactions-settings"),
-            ]
+            useUnifiedTopology: true
         })
+
         client.login(config.token)
         app.listen(port, () => {
             console.log(`Веб сервер запустился на порте ${port}\nURL: http://localhost:${port}`)

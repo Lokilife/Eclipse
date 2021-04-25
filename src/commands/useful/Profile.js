@@ -1,11 +1,11 @@
-const errors            = require('../lib/errors.js');
+const errors            = require('../../lib/errors.js');
 const { MessageEmbed }  = require('discord.js');
 const strftime          = require('strftime').localizeByIdentifier('ru_RU');
-const config            = require('../../config.json');
+const config            = require('../../../config.json');
 
 module.exports = {
     "run": async (message, bot, args) => {
-        const footer = require("../templates.json").footer.replace(/{TAG}/, message.author.tag);
+        const footer = require("../../templates.json").footer.replace(/{TAG}/, message.author.tag);
 
         // Получаем пользователя, о котором мы ищем информацию
         let argsUser

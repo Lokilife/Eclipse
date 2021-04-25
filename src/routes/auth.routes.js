@@ -28,14 +28,14 @@ router.get('/token', async (req, res) => {
 
 // api/auth/refresh_token
 router.get('/refresh_token', async (req, res) => {
-  const refresh_token = req.query.refresh_token
-  if (!refresh_token) return res.status(400).send('Token is not provided')
+  const old_refresh_token = req.query.refresh_token
+  if (!old_refresh_token) return res.status(400).send('Token is not provided')
 
   const result = await refresh_token(refresh_token, ...params)
   if (!result) return res.status(401)
 
-  const [token_type, access_token, refresh_token, user] = result
-  res.send({token_type, access_token, refresh_token, user})
+  const [token_type, access_token, new_refresh_token, user] = result
+  res.send({token_type, access_token, new_refresh_token, user})
 })
 
 module.exports = router

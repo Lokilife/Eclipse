@@ -1,6 +1,4 @@
-// Refactored by Lokilife
 const Settings = require("../models/role-reactions-settings")
-const typeorm = require("typeorm")
 
 module.exports = [
     // Даже если сообщение не кешировано, событие
@@ -16,9 +14,7 @@ module.exports = [
          * @returns 
          */
         run: async function(client, reaction, user) {
-            const manager       = typeorm.getMongoManager(),
-                  settingsRepo  = manager.getMongoRepository(Settings),
-                  settings      = await settingsRepo.findOne({_id: reaction.message.id})
+            const settings = await Settings.findOne({_id: reaction.message.id}).exec()
             
             // Если реакцию поставил бот или вне сервера
             if (user.bot || !reaction.message.guild) return
@@ -34,9 +30,9 @@ module.exports = [
                 const role = roles.get(settings.roles[emoji_name] || settings.roles[emoji_id])
                 if (!role) return
                 await member.roles.add(role)
-                .catch(async(e) => {
+                .catch(async e => {
                     if (e.code === 50013) // Недостаточно прав
-                        await settingsRepo.updateOne({_id: guild.id}, {$set: {enabled: false}})
+                        await Settings.updateOne({_id: guild.id}, {$set: {enabled: false}}).exec()
                 })
             }
         }
@@ -52,9 +48,7 @@ module.exports = [
          * @returns 
          */
          run: async function(client, reaction, user) {
-            const manager       = typeorm.getMongoManager(),
-                  settingsRepo  = manager.getMongoRepository(Settings),
-                  settings      = (async() => await settingsRepo.findOne({_id: message.id}))()
+            const settings = await Settings.findOne({_id: reaction.message.id}).exec()
             // Если реакцию поставил бот или вне сервера
             if (user.bot || !reaction.message.guild) return
             // Создаём дополнительные константы для читаемости кода и удобства
@@ -69,9 +63,9 @@ module.exports = [
                 const role = roles.get(settings.roles[emoji_name] || settings.roles[emoji_id])
                 if (!role) return
                 await member.roles.remove(role)
-                .catch(async(e) => {
+                .catch(async e => {
                     if (e.code === 50013) // Недостаточно прав
-                        await settingsRepo.updateOne({_id: guild.id}, {$set: {enabled: false}})
+                        await Settings.updateOne({_id: guild.id}, {$set: {enabled: false}})
                 })
             }
         }

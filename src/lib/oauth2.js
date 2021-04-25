@@ -27,13 +27,6 @@ module.exports = {
       const json = await response.json()
       if (json.message == "401: Unauthorized") return false
       
-      const user = await fetch("https://discord.com/api/v8/users/@me", {
-        method: "GET",
-        headers: {
-          "Authorization": `${json.token_type} ${json.access_token}`
-        }
-      })
-      
       const user = this.identify_user(json.token_type, json.access_token)
 
       return [json.token_type, json.access_token, json.refresh_token, user]

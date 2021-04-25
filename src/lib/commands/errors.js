@@ -1,3 +1,5 @@
+const { Message, TextChannel, GuildMember, User } = require('discord.js')
+
 /**
  * Начало иерарзии классов ошибок команд.
  * Запрещено использовать кроме как создания новых типов ошибок.

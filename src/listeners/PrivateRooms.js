@@ -1,6 +1,5 @@
-const   privateVoices   = require("../models/private-voices"),
-        guilds          = require("../models/guilds"),
-        typeorm         = require("typeorm")
+const   PrivateVoices   = require("../models/private-voices"),
+        Guilds          = require("../models/guilds")
 
 module.exports = {
     name: "voiceStateUpdate",
@@ -11,18 +10,19 @@ module.exports = {
      * @param {VoiceState} newState 
      */
     run: async function(client, oldState, newState) {
-        const manager = typeorm.getMongoManager(),
-              guild = await manager.getRepository(guilds).findOne({_id: newState.guild.id.toString()});
-        let   privateVoice = manager.getRepository(privateVoices).findOne({_id: newState.member.id});
+        const guild = await Guilds.findOne({_id: newState.guild.id.toString()}).exec()
+        let   privateVoice = manager.getRepository(PrivateVoices).findOne({_id: newState.member.id})
+
+        const channel = oldState.guild.channels.cache.get(guild.privateVoices.channel)
 
         // Создание румы
         if (
             newState.channel &&
             guild.privateVoices.enabled &&
-            guild.privateVoices.category === newState.channel.parentID &&
+            channel.category === newState.channel.parentID &&
             guild.privateVoices.channel === newState.channel.id
         ) {
-            const name = guild.privateVoices.template.replace(/{NAME}/, newState.member.displayName);
+            const name = guild.privateVoices.template.replace(/{NAME}/, newState.member.displayName)
             const channel = await newState.guild.channels.create(name,
                 {
                     permissionOverwrites: [
@@ -34,34 +34,33 @@ module.exports = {
                     type: "voice",
                     parent: newState.channel.parentID
                 })
-            .catch(async(e) => {
+            .catch(async e => {
                 if (e.code === 50013) { // Недостаточно прав
                     guild.privateVoices.enabled = false;
-                    await manager.getMongoRepository(guilds).updateOne({_id: newState.guild.id}, {$set: {privateVoices: guild.privateVoices}});
+                    await Guilds.updateOne({_id: newState.guild.id}, {$set: {privateVoices: guild.privateVoices}}).exec()
                     newState.guild.owner.send(
                         "У бота недостаточно прав чтобы управлять приватными голосовыми каналами. "+
                         "Выдайте боту права управления каналами и снова включите приватные голосовые каналы.\n\n"+
                         "Данное сообщение отправлено автоматически, на него не нужно отвечать.")
                         .catch(()=>{})
                 }
-            });
+            })
             if (!channel) return
 
             await newState.setChannel(channel).catch(async()=>{await channel.delete()})
             
             if (channel.deleted) return
 
-            if (!privateVoice) {
-                privateVoice = {
+            if (!privateVoice)
+                await PrivateVoices.create({
                     _id: newState.member.id,
                     channelID: channel.id,
                     guildID: newState.guild.id,
                     blockedUsers: [],
                     mutedUsers: []
-                };
-                await manager.getMongoRepository(privateVoices).save(privateVoice)
-            }
-            await manager.getMongoRepository(privateVoices).updateOne({_id: newState.member.id}, {$set: {channelID: channel.id}})
+                })
+            
+            await PrivateVoices.updateOne({_id: newState.member.id}, {$set: {channelID: channel.id}}).exec()
             if (guild.privateVoices.allowBlock)
                 for (const user of (await privateVoice).blockedUsers) {
                     if (newState.channel.deleted) return
@@ -93,26 +92,25 @@ module.exports = {
             .catch(async(e) => {
                 if (e.code === 50013) { // Недостаточно прав
                     guild.privateVoices.enabled = false
-                    await manager.getMongoRepository(guilds).updateOne({_id: newState.guild.id}, {$set: {privateVoices: guild.privateVoices}});
+                    await Guilds.updateOne({_id: newState.guild.id}, {$set: {privateVoices: guild.privateVoices}}).exec()
                     newState.guild.owner.send(
                         "У бота недостаточно прав чтобы управлять приватными голосовыми каналами. "+
                         "Выдайте боту права управления каналами и снова включите приватные голосовые каналы.\n\n"+
                         "Данное сообщение отправлено автоматически, на него не нужно отвечать.")
-                        .catch(()=>{});
+                        .catch(()=>{})
                 }
-            });
+            })
             
             if (!privateVoice) {
-                privateVoice = {
+                await PrivateVoices.create({
                     _id: newState.member.id,
                     channelID: "",
                     guildID: newState.guild.id,
                     blockedUsers: [],
                     mutedUsers: []
-                };
-                await manager.getMongoRepository(privateVoices).save(privateVoice);
+                })
             }
-            await manager.getMongoRepository(privateVoices).updateOne({channelID: oldState.channelID}, {$set: {channelID: ""}});
+            await PrivateVoices.updateOne({channelID: oldState.channelID}, {$set: {channelID: ""}}).exec()
         }
     }
 }

@@ -3,7 +3,6 @@ const Client = require("../lib/client")
 const Users = require("../models/users")
 const Guilds = require("../models/guilds")
 const { Database } = require("../lib/tools")
-const typeorm = require("typeorm")
 
 module.exports = {
     name: "message",
@@ -12,12 +11,8 @@ module.exports = {
      */
     setup: async function(client) {
         setInterval(async() => { // Проверка на присутствие человека в голосовом канале, он же счётчик времени в войсе
-            const manager = await typeorm.getMongoManager()
-            const guildsRepository = await manager.getMongoRepository(Guilds)
-            const usersRepository = await manager.getMongoRepository(Users)
-            
             for (const guild of client.guilds.cache.values()) {
-                const guildDoc = await guildsRepository.findOne({_id: guild.id})
+                const guildDoc = await Guilds.findOne({_id: guild.id}).exec()
                 if (!guildDoc) { // Если сервера нет в базе данных - добавляем и переходим к следующему
                     Database().addGuild(guild)
                     continue
@@ -25,8 +20,8 @@ module.exports = {
                 if (!guildDoc.levels.enabled) continue // - Если уровни выключены - переходим к следующему
                 
                 for (const voiceState of guild.voiceStates.cache.values()) { // Место которое можно оптимизировать, через .slice().map сделать все voiceStat'ы документами и закидывать в бд разом, а не по одному. Мне было лень об этом заморачиваться сейчас).
-                    if (voiceState.member.user.bot || !guildDoc.levels.voiceXpCounterEnable) continue
-                    const user = await usersRepository.findOne({_id: voiceState.id, guildId: guild.id})                    
+                    if (voiceState.member.user.bot || !guildDoc.levels.voiceXpEnable) continue
+                    const user = await Users.findOne({_id: voiceState.id, guildId: guild.id}).exec()
                     
                     if (!user) Database().addUser(voiceState.id, guild)
                     
@@ -34,7 +29,7 @@ module.exports = {
                     if (user.xp > user.level*140) user.level += 1
                     user.voiceTime += 1
 
-                    usersRepository.updateOne({_id: voiceState.id, guildId: guild.id}, {$set: {xp: user.xp, level: user.level, voiceTime: user.voiceTime}})
+                    Users.updateOne({_id: voiceState.id, guildId: guild.id}, {$set: {xp: user.xp, level: user.level, voiceTime: user.voiceTime}}).exec()
                 }
             }
         }, 1000)
@@ -45,11 +40,8 @@ module.exports = {
      */
     run: async function(client, message) {
         if (!client.isCommand(message)) {
-            const manager = await typeorm.getMongoManager(),
-                  usersRepository = await manager.getMongoRepository(Users),
-                  guildsRepository = await manager.getMongoRepository(Guilds),
-                  guildDoc = await guildsRepository.findOne({_id: message.guild.id})
-            let   user = await usersRepository.findOne({_id: message.author.id, guildId: message.guild.id})
+            const guildDoc = await Guilds.findOne({_id: message.guild.id}).exec()
+            let   user = await Users.findOne({_id: message.author.id, guildId: message.guild.id}).exec()
             
             if (!guildDoc) return Database().addGuild(message.guild.id)
             if (!guildDoc.levels.enabled) return
@@ -57,7 +49,7 @@ module.exports = {
 
             user.xp += 24 * guildDoc.levels.textMultiplier
             if (user.xp > user.level*140) user.level += 1
-            usersRepository.updateOne({_id: message.author.id, guildId: message.guild.id}, {$set: {level: user.level, xp: user.xp}})
+            Users.updateOne({_id: message.author.id, guildId: message.guild.id}, {$set: {level: user.level, xp: user.xp}}).exec()
         }
     }
 }

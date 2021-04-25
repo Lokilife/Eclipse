@@ -1,6 +1,6 @@
 const discord  = require('discord.js');
-const config   = require('../../config.json');
-const errors   = require('../lib/errors.js');
+const config   = require('../../../config.json');
+const errors   = require('../../lib/errors.js');
 
 //  Почему я всё это решил прокомментировать? Не знаю... Но хуже от этого не стало)
 module.exports = {

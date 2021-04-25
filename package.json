@@ -30,9 +30,9 @@
     "express": "^4.17.1",
     "mathjs": "^9.3.0",
     "mongodb": "^3.6.3",
+    "mongoose": "^5.12.5",
     "node-fetch": "^2.6.1",
     "strftime": "^0.10.0",
-    "typeorm": "^0.2.31",
     "urllib": "^2.23.0"
   }
 }

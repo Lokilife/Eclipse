@@ -1,4 +1,4 @@
-const config            = require('../../config.json');
+const config            = require('../../../config.json');
 const { MessageEmbed }  = require('discord.js');
 
 module.exports = {
@@ -6,7 +6,7 @@ module.exports = {
         let status = false; //  В будущем тут будет происходить чёрная магия.
 
         message.channel.send(new MessageEmbed().setColor(status ? config.colors.successGreen : config.colors.default)
-        .setFooter(require("../templates.json").footer.replace(/{TAG}/, message.author.tag))
+        .setFooter(require("../../templates.json").footer.replace(/{TAG}/, message.author.tag))
         .setTitle("Премиум")
         .addField('Статус:', status ? `Премиум подключен!` : `Премиум не подключен`)
         .addField('Что такое премиум?', `Некоторые функции реализованы за деньги. То есть они требуют ежемесячных вложений. В том числе деньги за сервер, чтобы бот работал круглосуточно, деньги за труд, чтобы была мотивация продолжать работать над ботом, деньги за сайт, чтобы было удобно настраивать бота и тд.`)

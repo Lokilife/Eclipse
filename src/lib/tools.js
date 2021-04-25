@@ -1,6 +1,5 @@
 // Экономим на const)))!
 const { User, Guild, GuildMember } = require("discord.js"),
-      typeorm = require("typeorm"),
       
       Users = require("../models/users"),
       Guilds = require("../models/guilds")
@@ -49,16 +48,12 @@ function permsToText(perms) { // Просто взял и сократил вс�
 }
 
 function Database() {
-    const manager = typeorm.getMongoManager(),
-          usersRepository = manager.getMongoRepository(Users),
-          guildsRepository = manager.getMongoRepository(Guilds)
-    
     function addUser(user, guild) {
         // Нам нужен только id'шник, а мы ещё принимаем другие типы по мимо User/GuildMember/Guild для удобства
         user = (user instanceof User || user instanceof GuildMember) ? user.id : user
         guild = (guild instanceof Guild) ? guild.id : guild
         
-        usersRepository.insertOne({
+        Users.create({
             _id: user,
             guildId: guild,
             level: 1,
@@ -70,7 +65,7 @@ function Database() {
     function addGuild(guild) {
         if (guild instanceof Guild) guild = guild.id
     
-        guildsRepository.insertOne({
+        Guilds.create({
             _id: guild,
             welcome: {
                 server: {

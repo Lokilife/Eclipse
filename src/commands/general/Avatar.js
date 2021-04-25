@@ -1,10 +1,10 @@
 const {MessageEmbed}  = require("discord.js");
-const config          = require('../../config.json');
-const errors          = require('../lib/errors.js');
+const config          = require('../../../config.json');
+const errors          = require('../../lib/errors.js');
 
 module.exports = {
     "run": async (message, bot, args) => {
-        const footer = require("../templates.json").footer.replace(/{TAG}/, message.author.tag);
+        const footer = require("../../templates.json").footer.replace(/{TAG}/, message.author.tag);
         if(!args[0]) {
             return message.channel.send(new MessageEmbed().setColor(config.colors.default).setTitle(`Вот твой аватар:`).setDescription(`[Если не загрузилось](${message.author.avatarURL({ dynamic: true, size: 4096 }) || message.author.defaultAvatarURL})`).setImage(message.author.avatarURL({ dynamic: true, size: 4096 }) || message.author.defaultAvatarURL).setFooter(footer));
         } else if(args[0] == "server" || args[0] == "guild") {

@@ -1,7 +1,7 @@
 const discord  = require("discord.js");
-const config   = require("../../config.json");
-const errors   = require("../lib/errors.js");
-const tools    = require("../lib/tools.js");
+const config   = require("../../../config.json");
+const errors   = require("../../lib/errors.js");
+const tools    = require("../../lib/tools.js");
 
 module.exports = {
     /**
@@ -10,7 +10,7 @@ module.exports = {
      * @param {Array<String>} args
      */
     "run": async function(message, bot, args) {
-        const footer = require("../templates.json").footer.replace(/{TAG}/, message.author.tag);
+        const footer = require("../../templates.json").footer.replace(/{TAG}/, message.author.tag);
         if(args[0]) {
             let ok = false;
             for(let i=0;i<=bot.commands.length-1;i++) {
@@ -37,7 +37,7 @@ module.exports = {
             return;
         }
 
-        let categories = ["Общее", "Полезное", "Модерация", "Прочее"];
+        let categories = ["Общее", "Полезное", "Модерация", "Музыка", "Прочее"];
         //bot.commands.forEach(value => {if(categories.indexOf(value.help.category) == -1 && value.help.category != "Owners") categories.push(value.help.category)});
 
         let emb         = new discord.MessageEmbed().setColor(config.colors.default).setTitle('Помощь').setDescription(`\`${config.prefix}help <команда>\` для углублённой помощи по команде'`).setFooter(footer)
@@ -66,7 +66,7 @@ module.exports = {
                 if(bot.commands[i2].help.category == categories[i1]) text = text+`**${config.prefix}${bot.commands[i2].aliases[0]}** - ${bot.commands[i2].help.description}\n` //  Если категории совпадают, то к переменной с текстом добавляется нужный текст (Команда с её описанием)
             }
             
-            if(text == '') text = "Тут пока ничего нет...";
+            if(!text) text = "Тут пока ничего нет...";
 
             fields[numbers[i1+1]] = {
                 "name": categories[i1],
@@ -82,7 +82,7 @@ module.exports = {
             for (const number of numbers) await msg.react(number);
 
             let filter     = (reaction,user) => numbers.includes(reaction.emoji.name) && user.id === message.author.id
-            let collector  = msg.createReactionCollector(filter, {idle:1e4});
+            let collector  = msg.createReactionCollector(filter, {idle:3e4});
 
             collector.on('collect',(r) => {
                 try {

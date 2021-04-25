@@ -1,3 +1,4 @@
+// Model disabled
 const EntitySchema = require("typeorm").EntitySchema;
 
 module.exports = new EntitySchema({
@@ -10,7 +11,8 @@ module.exports = new EntitySchema({
         },
 
         enabled: {
-            type: "boolean"
+            type: "boolean",
+            
         },
         exceptions: {
             type: "json"

@@ -1,12 +1,12 @@
 const discord   = require("discord.js");
-const config    = require("../../config.json");
-const tools     = require("../lib/tools.js");
+const config    = require("../../../config.json");
+const tools     = require("../../lib/tools.js");
 const strftime  = require("strftime").localizeByIdentifier('ru_RU');
-const package   = require("../../package.json");
+const package   = require("../../../package.json");
 
 module.exports = {
     "run": async (message, bot) => {
-        const footer = require("../templates.json").footer.replace(/{TAG}/, message.author.tag);
+        const footer = require("../../templates.json").footer.replace(/{TAG}/, message.author.tag);
         let uptime = tools.parseMS(bot.uptime);
 
         let embed = new discord.MessageEmbed().setColor(config.colors.default)

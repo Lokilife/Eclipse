@@ -1,4 +1,4 @@
-const config          = require('../../config.json');
+const config          = require('../../../config.json');
 const {MessageEmbed}  = require('discord.js');
 const mathjs          = require('mathjs');
 

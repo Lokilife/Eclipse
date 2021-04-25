@@ -1,18 +1,13 @@
-const EntitySchema = require("typeorm").EntitySchema;
+const { Schema, model } = require('mongoose')
 
-module.exports = new EntitySchema({
-    name: "role_reactions_settings",
-    columns: {
-        _id: { // Айди сообщений
-            objectId: true,
-            primary: true,
-            type: "string"
-        },
-        roles: { // Объект с парами ID-Эмоджи/Юникод-Эмоджи: ID-Роли
-            type: "json"
-        },
-        enabled: { // Включены или нет
-            type: "boolean"
-        }
-    }
-});
+const schema = new Schema({
+    _id: String, // ID соощения
+    roles: [{
+        emoji: String, // ID-Эмоджи/Юникод,
+        role: String,
+    }],
+    enabled: Boolean
+})
+
+
+module.exports = model("role_reactions_settings", schema)

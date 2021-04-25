@@ -1,12 +1,12 @@
-const config            = require('../../config.json')
+const config            = require('../../../config.json')
 const { MessageEmbed }  = require('discord.js')
-const versions          = require('../../versions.json')
-const package           = require('../../package.json')
-const errors            = require('../lib/errors.js')
+const versions          = require('../../../versions.json')
+const package           = require('../../../package.json')
+const errors            = require('../../lib/errors.js')
 
 module.exports = {
     "run": async (message, bot, args) => {
-        const footer = require("../templates.json").footer.replace(/{TAG}/, message.author.tag)
+        const footer = require("../../templates.json").footer.replace(/{TAG}/, message.author.tag)
 
         let ver = args[0] || package.version
 

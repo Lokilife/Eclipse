@@ -1,21 +1,11 @@
-const EntitySchema = require("typeorm").EntitySchema;
+const { Schema, model } = require('mongoose')
+const Embed = require('./child-models/embed')
 
-module.exports = new EntitySchema({
-    name: "custom_commands",
-    columns: {
-        _id: { // ID сервера
-            objectId: true,
-            primary: true,
-            type: "string"
-        },
-        name: { // Название команды
-            type: "string"
-        },
-        embed: { // Эмбед, и так понятно
-            type: "json"
-        },
-        message: { // Текст сообщения
-            type: "string"
-        }
-    }
-});
+const schema = new Schema({
+    _id: String, // Сервера
+    name: String, // Название команды
+    embed: Embed,
+    message: String,
+})
+
+module.exports = model("custom_commands", schema)

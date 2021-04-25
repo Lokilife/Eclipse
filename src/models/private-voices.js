@@ -1,24 +1,11 @@
-const EntitySchema = require("typeorm").EntitySchema;
+const { Schema, model } = require('mongoose')
 
-module.exports = new EntitySchema({
-    name: "private_voices",
-    columns: {
-        _id: { // ID участника
-            objectId: true,
-            primary: true,
-            type: "string"
-        },
-        channelID: { // ID созданного канала (может быть пустым когда канал удалён)
-            type: "string" 
-        },
-        guildID: { // ID сервера
-            type: "string"
-        },
-        blockedUsers: { // Заблокированные пользователи, массив ID
-            type: "array"
-        },
-        mutedUsers: { // Замьюченные пользователи, массив ID
-            type: "array"
-        }
-    }
-});
+const schema = new Schema({
+    _id: String, // ID участника
+    channelID: String,
+    guildID: String,
+    blockedUsers: [String], // Массив ID заблокированных пользователей
+    mutedUsers: [String] // Массив ID замьюченных пользователей
+})
+
+module.exports = model("private_voices", schema)

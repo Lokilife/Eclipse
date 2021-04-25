@@ -114,13 +114,13 @@ module.exports = class Client extends discord.Client {
     loadCommands(path = this.commandsDir) {
         for (let file of fs.readdirSync(path, {withFileTypes: true})) {
             if (file.isFile() && file.name.endsWith(".js")) {
-                try {
+                //try {
                     const command = require(`${path}/${file.name}`)
                     this.commands.push(command);
                     console.log(chalk.green(`+ ${file.name}`))
-                } catch (e) {
+                /*} catch (e) {
                     console.log(chalk.red(`Не удалось загрузить команду ${file.name}.\nОшибка: ${e}`))
-                }
+                }*/
             }
             if (file.isDirectory())
                 this.loadCommands(`${path}/${file.name}`)
@@ -164,7 +164,7 @@ module.exports = class Client extends discord.Client {
      */
     _initCommandsHandler() {
         this.on("message", async function(message) {
-            if (!this.isCommand(message)) true
+            if (!this.isCommand(message)) return
 
             const messageArray = message.content.split(/\s+/g),
                   cmd          = messageArray[0].slice(this.prefix.length),
@@ -176,26 +176,22 @@ module.exports = class Client extends discord.Client {
             if (!message.member.permissions.has(command.userPermissions))
                 return this.emit("commandError", new errors.MissingPermissions(
                     "Missing Permissions", message, message.member,
-                    command.userPermissions.filter((p)=>message.member.permissions.has(p))))
+                    command.userPermissions.filter(p =>message.member.permissions.has(p))))
 
             if (!message.guild.me.permissions.has(command.botPermissions))
                 return this.emit("commandError", new errors.BotMissingPermissions(
                     "Bot don't have needed permissions", message, message.member,
-                    command.userPermissions.filter((p)=>message.guild.me.permissions.has(p))))
+                    command.userPermissions.filter(p =>message.guild.me.permissions.has(p))))
 
             if (command.ownerOnly && !this.owners.includes(message.author.id))
                 return this.emit("commandError", new errors.NotOwner(
                     "You're not owner!", message, message.author
                 ))
 
-            command.run(message, this, args).catch((e)=>{
-                this.emit("commandError",
-                    {
-                        "type": "unknown",
-                        "message": message,
-                        "author": message.author,
-                        "error": e
-                    })
+            command.run(message, this, args).catch(e =>{
+                this.emit("commandError", new errors.UnknownError(
+                    e, message, message.author
+                ))
             })
         });
     }

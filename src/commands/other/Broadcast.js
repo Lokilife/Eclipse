@@ -1,4 +1,4 @@
-const errors          = require('../lib/errors.js');
+const errors          = require('../../lib/errors.js');
 //const {MessageEmbed}  = require('discord.js');
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
         try { //  Попыточка
             a = JSON.parse(string).obj[0]; 
         } catch (err) { // Если не получилось
-            return errors.custom(message, `Перепроверь твой embed!`)
+            return await errors.custom(message, `Перепроверь твой embed!`)
         }
 
         let chans
@@ -21,11 +21,12 @@ module.exports = {
     },
     "aliases": ["broadcast"],
     "help": {
-        "category": "Прочее",
+        "category": "Owners",
         "description": "Отправка Embed сообщения на все сервера",
         "arguments": `<\\\`\\\`\\\`JSON embed код\\\`\\\`\\\`>`,
         "usage": `\\\`\\\`\\\`{\n  "embed": {\n    "title": "Угу",\n    "description": "Это работает!",\n    "color": null\n  }\n}\\\`\\\`\\\``
     },
     "botPermissions": [],
-    "userPermissions": []
+    "userPermissions": [],
+    "ownerOnly": true
 }

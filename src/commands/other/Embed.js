@@ -1,5 +1,5 @@
-const errors  = require('../lib/errors.js');
-const config  = require('../../config.json');
+const errors  = require('../../lib/errors');
+const config  = require('../../../config.json');
 
 module.exports = {
     "run": async (message, bot, args) => {
@@ -9,12 +9,12 @@ module.exports = {
         
         try { //  Попыточка
             let a = JSON.parse(string).obj[0]; 
-            return message.channel.send({embed: a, disableMentions: "all"}).catch(()=>{return errors.custom(message, `Перепроверь свой embed!`)});
+            return message.channel.send({embed: a, disableMentions: "all"}).catch(() => errors.custom(message, `Перепроверь свой embed!`) );
         } catch (err) { // Если не получилось
             return errors.custom(message, `Перепроверь свой embed!`)
         }
     },
-    "aliases": ["sendembed", "embed"],
+    "aliases": ["embed", "sendembed"],
     "help": {
         "category": "Прочее",
         "description": "Отправка Embed сообщения",
