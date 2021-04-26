@@ -5,4 +5,5 @@ module.exports = new Schema({
     enabled: Boolean,
     content: String,
     embed:   Embed,
+    channel: String,
 })

@@ -3,7 +3,6 @@ const config                        = require('../config.json')
 const Client                        = require('./lib/client')
 const discord                       = require('discord.js')
 const mongoose                      = require('mongoose')
-const typeorm                       = require('typeorm')
 const chalk                         = require('chalk')
 
 console.log(chalk.yellow(

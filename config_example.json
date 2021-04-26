@@ -1,12 +1,18 @@
 {
-    "token": "TOKEN",
-    "mongo_uri": "URI",
-    "prefix": "PREFIX",
-    "owners": ["OWNER_ID_1", "OWNER_ID_2"],
-    "colors": {
+    "token":        "TOKEN",
+    "mongo_uri":    "URI",
+    "prefix":       "PREFIX",
+    "owners":       ["OWNER_ID_1", "OWNER_ID_2"],
+    "colors":       {
         "default": "525592",
         "errorRed": "cc0000",
         "warnOrange": "fdb21a",
         "successGreen": "00ce00"
+    },
+    "client_id":        "YOUR_APPLICATION_CLIENT_ID",
+    "client_secret":    "YOUR_APPLICATION_CLIENT_SECRET",
+    "oauth2": {
+        "redirect_uri": "YOUR_REDIRECT_URI",
+        "scope":        "identify guilds"
     }
 }
