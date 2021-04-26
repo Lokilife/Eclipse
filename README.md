@@ -45,9 +45,9 @@ Eclipse это самодостаточный Discord бот с открым и�
 
 **Пожалуйста, расскажите мне об ошибках или методах оптимизации!**
 
-### Authors
+### Авторы
 **EclipseBot** © Night Devs<br>
-Авторы: [Electroplayer](https://github.com/Elektroplayer) и [Lokilife](https://github.com/Lokilife)<br>
+Разработчики: [Electroplayer](https://github.com/Elektroplayer) и [Lokilife](https://github.com/Lokilife)<br>
 [Сервер поддержки бота](https://discord.gg/PHuvYMrvdr)
 
 ### Благодарности
