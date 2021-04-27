@@ -17,7 +17,12 @@ const schema = new Schema({
     logs: Logs,
     levels: LevelsOptions,
     privateVoices: PrivateVoicesOptions,
-    premium: Boolean
+    autoRolesRecoveryEnabled: Boolean,
+    defaultRolesEnabled: Boolean,
+    userDefaultRoles: [String],
+    botDefaultRoles: [String],
+    recovereableRoles: [String],
+    premium: Boolean,
 })
 
 module.exports = model("guilds", schema)

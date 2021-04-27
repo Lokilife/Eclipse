@@ -48,39 +48,41 @@ function permsToText(perms) { // Просто взял и сократил вс�
 }
 
 function Database() {
-    function addUser(user, guild) {
+    async function addUser(user, guild) {
         // Нам нужен только id'шник, а мы ещё принимаем другие типы по мимо User/GuildMember/Guild для удобства
+        member = user instanceof GuildMember ? Object.assign(user) : null
         user = (user instanceof User || user instanceof GuildMember) ? user.id : user
-        guild = (guild instanceof Guild) ? guild.id : guild
+        guild = (guild instanceof Guild) ? guild.id : member ? member.guild : guild
         
-        Users.create({
+        await Users.create({
             _id: user,
-            guildId: guild,
+            guildId: guild.id,
             level: 1,
             xp: 0,
-            voiceTime: 0
+            voiceTime: 0,
+            roles: []
         })
     }
 
-    function addGuild(guild) {
+    async function addGuild(guild) {
         if (guild instanceof Guild) guild = guild.id
     
-        Guilds.create({
+        await Guilds.create({
             _id: guild,
             welcome: {
                 server: {
-                    type: "false"
+                    enabled: false
                 },
                 direct: {
-                    type: "false"
+                    enabled: false
                 }
             },
             goodbye: {
                 server: {
-                    type: "false"
+                    enabled: false
                 },
                 direct: {
-                    type: "false"
+                    enabled: false
                 }
             },
             logs: {},
@@ -101,7 +103,12 @@ function Database() {
             privateVoices: {
                 enabled: false
             },
-            premium: "false"
+            autoRolesRecoveryEnabled: false,
+            recovereablyRoles: [],
+            defaultRolesEnabled: false,
+            userDefaultRoles: [],
+            botDefaultRoles: [],
+            premium: false,
         })
     }
     return {

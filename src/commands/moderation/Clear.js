@@ -4,7 +4,7 @@ const errors          = require('../../lib/errors.js');
 module.exports = {
     "run": async (message, client, args) => {
         if(!args[0]) return errors.notArgs(message, `Напиши **${config.prefix}help clear** для помощи по команде`)
-        if(!/^[0-9]{1,}$/g.test(args[0]) || parseInt(args[0]) >= 0) return errors.falseArgs(message, "Можно вводить только цифры, больше 0!")
+        if(!/^[0-9]{1,}$/g.test(args[0]) || parseInt(args[0]) <= 0) return errors.falseArgs(message, "Можно вводить только цифры, больше 0!")
         if(args[0]>100000) return errors.falseArgs(message, "Можно вводить только цифры, меньше или равные 100000!")
 
         await message.delete()

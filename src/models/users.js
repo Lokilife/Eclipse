@@ -6,6 +6,7 @@ const schema = new Schema({
     level: Number,
     xp: Number,
     voiceTime: Number,
+    roles: [String],
 })
 
 module.exports = model("users", schema)

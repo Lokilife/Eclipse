@@ -45,7 +45,7 @@ module.exports = {
             
             if (!guildDoc) return Database().addGuild(message.guild.id)
             if (!guildDoc.levels.enabled) return
-            if (!user) return Database().addUser(message.author.id, message.guild.id)
+            if (!user) return Database().addUser(message.member)
 
             user.xp += 24 * guildDoc.levels.textMultiplier
             if (user.xp > user.level*140) user.level += 1
