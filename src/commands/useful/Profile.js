@@ -7,15 +7,18 @@ module.exports = {
     "run": async (message, bot, args) => {
         const footer = require("../../templates.json").footer.replace(/{TAG}/, message.author.tag);
 
-        // Получаем пользователя, о котором мы ищем информацию
-        let argsUser
-        if(!args[0]) argsUser = message.author
-        else {
-            argsUser = message.mentions.users.first() || message.guild.members.cache.find(m => m.user.username == args[0]) || message.guild.members.cache.get(args[0]) //
-            if(!argsUser) return errors.noUser(message);
-            argsUser = message.guild.member(argsUser).user;
+        // Получаем пользователя, о котором идёт речь
+        let argsUser, member;
+        if(!args[0]) {
+            argsUser = message.author;
+            member   = message.member;
         }
-        let member = message.guild.members.cache.get(argsUser.id) //  Находим человека на сервере
+        else {
+            argsUser = message.mentions.users.first() || message.guild.members.cache.find(m => m.user.username == args[0]) || message.guild.members.cache.get(args[0])
+            if(!argsUser) return errors.noUser(message);
+            argsUser  = message.guild.member(argsUser).user;
+            member    = message.guild.members.cache.get(argsUser.id); //  Находим человека на сервере
+        }
     
         //  Вычисляем все даты
         let day   = 1000 * 60 * 60 * 24
@@ -55,16 +58,16 @@ module.exports = {
         let activit  = message.guild.presences.cache.get(argsUser.id).activities; //  Да, я умею называть переменные)
         let activ    = '';
     
-        for(let i=0;i<=activit.length-1;i++) {  //  Там без цикла никак...
-            if (activit[i].type == 'CUSTOM_STATUS') { //  К кастомному статусу отдельная надпись
+        activit.forEach (elm => {
+            if (elm.type == 'CUSTOM_STATUS') { //  К кастомному статусу отдельная надпись
                 let stat = ""
-                if(activit[i].emoji) stat = stat + " " + activit[i].emoji.name;
-                if(activit[i].state) stat = stat + " " + activit[i].state
-                activ = activ + ` \`\`\`Кастомный статус:${stat}\`\`\` `
+                if(elm.emoji) stat += " " + elm.emoji.name; 
+                if(elm.state) stat += " " + elm.state
+                activ += ` \`\`\`Кастомный статус:${stat}\`\`\` `
             } else {
-                activ = activ + ` \`\`\`Имя: ${activit[i].name}\n${activit[i].details}\n${activit[i].state}\`\`\` `
+                activ += ` \`\`\`Имя: ${elm.name}\n${elm.details ? elm.details + "\n" : ""}${elm.state ? elm.state : ""}\`\`\` `
             }
-        } //  Иногда какой-то из параметров может быть null. К сожалению, я ещё не отследил, какой, когда, как и почему...
+        })
     
         if(activ == '') activ = '```Нет```' //  Если активностей нет, то и сюда нет...
 

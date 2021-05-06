@@ -1,5 +1,5 @@
-const config          = require('../../../config.json');
-const errors          = require('../../lib/errors.js');
+const config = require('../../../config.json');
+const errors = require('../../lib/errors.js');
 
 module.exports = {
     "run": async (message, client, args) => {

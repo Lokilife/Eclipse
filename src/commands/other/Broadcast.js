@@ -3,7 +3,8 @@ const errors          = require('../../lib/errors.js');
 
 module.exports = {
     "run": async (message, bot, args) => {
-        let string = `{"obj":[${args.join(" ").replace(/(```(\w+)?)/g, "").trim()}]}`; //  Это то, что мы будем парсить
+        //  Я не помню, под чем я был, когда писал эту строку, но я помню, что её писал я
+        let string = `{"obj":[${args.join(" ").replace(/(```(\w+)?)/g, "").trim()}]}`; //  Это то, что мы будем парсить.
         
         let a
         try { //  Попыточка

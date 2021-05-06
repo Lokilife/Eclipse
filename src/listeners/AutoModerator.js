@@ -1,24 +1,15 @@
-module.exports = {
-    name: "disabled",
+module.exports = [{
+    name: "message",
     /**
      * 
      * @param {Client} client 
      * @param {Message} message 
      */
-    run: async function() {
-        // [Code Deleted]
-    }
-}
+    run: async (bot, message) => {
+        let enabled = false; // Чёрная магия с БД и включением
 
-module.exports = {
-    name: "disabled",
-    /**
-     * 
-     * @param {Client} client 
-     * @param {Message} oldMessage
-     * @param {Message} message
-     */
-    run: async function() {
-        // [Code Deleted]
+        if(!enabled) return;
+        //  Код в сделку не входил, но он тут есть)
     }
 }
+]

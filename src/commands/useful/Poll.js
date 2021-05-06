@@ -1,6 +1,6 @@
-const discord  = require('discord.js');
-const config   = require('../../../config.json');
-const errors   = require('../../lib/errors.js');
+const {MessageEmbed}  = require('discord.js');
+const config          = require('../../../config.json');
+const errors          = require('../../lib/errors.js');
 
 //  Почему я всё это решил прокомментировать? Не знаю... Но хуже от этого не стало)
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
         message.delete(); //  Удаляем сообщение
         
         let text   = args.join(" "); //  Соединяем всё в один текст
-        let embed  = new discord.MessageEmbed() //  Делаем всё это сейчас, чтобы не переписывать всё это потом
+        let embed  = new MessageEmbed() //  Делаем всё это сейчас, чтобы не переписывать всё это потом
         .setColor(config.colors.default)
         .setFooter(message.author.username, message.author.avatarURL({ dynamic: true }) || message.author.defaultAvatarURL)
 

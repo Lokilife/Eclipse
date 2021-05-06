@@ -12,29 +12,19 @@ module.exports = {
     "run": async function(message, bot, args) {
         const footer = require("../../templates.json").footer.replace(/{TAG}/, message.author.tag);
         if(args[0]) {
-            let ok = false;
-            for(let i=0;i<=bot.commands.length-1;i++) {
-                for(let i2=0;i2<=bot.commands[i].aliases.length-1;i2++){
-                    if(bot.commands[i].aliases[i2] == args[0]) {
-                        let embed = new discord.MessageEmbed().setColor(config.colors.default)
-                        .setTitle(`Помощь по команде ${bot.commands[i].aliases[0]}`)
-                        .setDescription(bot.commands[i].help.description)
-                        .addField('Аргументы:', bot.commands[i].help.arguments)
-                        .addField('Примеры:', bot.commands[i].help.usage)
-                        .addField('Могут использовать:', tools.securitylevel(bot.commands[i].userPermissions), true)
-                        .setFooter(footer)
 
-                        if(bot.commands[i].aliases.length>1) embed.addField('Сокращения:', bot.commands[i].aliases.slice(1).join(', ') ,true)
+            let c = bot.commands.find(m => m.aliases.includes(args[0])); //  c от command.
+            
+            if(!c) return errors.falseArgs(message,"Такой команды/алиаса не существует!");
 
-                        message.channel.send(embed)
-                        ok = true;
-                        break;
-                    }
-                }
-                if(ok) break;
-            }
-            if(!ok) errors.falseArgs(message,"Такой команды/алиаса не существует!")
-            return;
+            return message.channel.send(new discord.MessageEmbed().setColor(config.colors.default)
+            .setTitle(`Помощь по команде ${c.aliases[0]}`)
+            .setDescription(c.help.description)
+            .addField('Аргументы:', c.help.arguments)
+            .addField('Примеры:', c.help.usage)
+            .addField('Могут использовать:', tools.securitylevel(c.userPermissions), true)
+            .setFooter(footer));
+
         }
 
         let categories = ["Общее", "Полезное", "Модерация", "Музыка", "Прочее"];
@@ -50,28 +40,23 @@ module.exports = {
             }
         }
 
-        let titVal = "1. Содержание\n";
-        for(let i=0; i <= categories.length-1; i++) {
-            titVal = titVal + `${i+2}. ${categories[i]}\n`;
+        fields['1️⃣'].value = "1. Содержание\n";
+        for(let i=0; i < categories.length; i++) {
+            fields['1️⃣'].value += `${i+2}. ${categories[i]}\n`;
         }
 
-        fields['1️⃣'].value = titVal
-
-        let text = '',
-            i1   = 0;
-        for(;i1<=categories.length-1;i1++) {
-            text = '';
-
-            for(let i2=0;i2<=bot.commands.length-1;i2++) {
-                if(bot.commands[i2].help.category == categories[i1]) text = text+`**${config.prefix}${bot.commands[i2].aliases[0]}** - ${bot.commands[i2].help.description}\n` //  Если категории совпадают, то к переменной с текстом добавляется нужный текст (Команда с её описанием)
-            }
-            
-            if(!text) text = "Тут пока ничего нет...";
-
+        let i1 = 0;
+        for(;i1<categories.length;i1++) {
             fields[numbers[i1+1]] = {
                 "name": categories[i1],
-                "value": text
+                "value": ""
             }
+
+            bot.commands.filter(m => m.help.category == categories[i1]).forEach(elm => {
+                fields[numbers[i1+1]].value += `**${config.prefix}${elm.aliases[0]}** - ${elm.help.description}\n`
+            })
+
+            if(fields[numbers[i1+1]].value == "") fields[numbers[i1+1]].value = "Тут пока ничего нет..."
         }
 
         message.channel.send(emb.addField(fields['1️⃣'].name,fields['1️⃣'].value))
@@ -105,7 +90,7 @@ module.exports = {
     "help": {
         "category": "Общее",
         "description": "Помощь по командам",
-        "arguments": `**<command>** - Показать более подробную информацию о команде\n<Нет> - Показать список команд`,
+        "arguments": `**<command>** - Показать более подробную информацию о команде\n**<Нет>** - Показать список команд`,
         "usage": `**${config.prefix}help** - Список всех команд\n**${config.prefix}help help** - Более подробная информация о help`,
     },
     "botPermissions": ["ADD_REACTIONS","MANAGE_MESSAGES"],

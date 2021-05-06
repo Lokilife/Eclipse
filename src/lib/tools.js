@@ -152,7 +152,7 @@ function getRandomInRange(first, second) {
 }
 
 function securitylevel(level) {
-    return !level ? "Все без исключений"
+    return level.length == 0 ? "Все без исключений"
     :`Нужные права: "${permsToText(level).join(", ")}"`
 }
 

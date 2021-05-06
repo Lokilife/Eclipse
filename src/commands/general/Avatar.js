@@ -8,8 +8,8 @@ module.exports = {
         if(!args[0]) {
             return message.channel.send(new MessageEmbed().setColor(config.colors.default).setTitle(`Вот твой аватар:`).setDescription(`[Если не загрузилось](${message.author.avatarURL({ dynamic: true, size: 4096 }) || message.author.defaultAvatarURL})`).setImage(message.author.avatarURL({ dynamic: true, size: 4096 }) || message.author.defaultAvatarURL).setFooter(footer));
         } else if(args[0] == "server" || args[0] == "guild") {
-            if(!message.guild.iconURL({ dynamic: true, size: 512 })) return errors.custom(message,`Сервер не имеет аватарки!`);
-            return message.channel.send(new MessageEmbed().setColor(config.colors.default).setTitle(`Аватарка сервера`).setDescription(`[Если не загрузилось](${message.guild.iconURL({ dynamic: true, size: 4096 })})`).setImage(message.guild.iconURL({ dynamic: true, size: 4096 })).setFooter(bot.helps.footer));
+            if(!message.guild.iconURL()) return errors.custom(message,`Сервер не имеет аватарки!`);
+            return message.channel.send(new MessageEmbed().setColor(config.colors.default).setTitle(`Аватарка сервера`).setDescription(`[Если не загрузилось](${message.guild.iconURL({ dynamic: true, size: 4096 })})`).setImage(message.guild.iconURL({ dynamic: true, size: 4096 })).setFooter(footer));
         } else {
             let aUser = message.guild.member(message.mentions.users.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(m => m.user.username == args[0]));
             if(!aUser) return errors.noUser(message);
