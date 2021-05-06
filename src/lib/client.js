@@ -1,10 +1,10 @@
 /// <reference path="typings/index.d.ts" />
-const Command   = require("./commands/command"),
-      discord   = require("discord.js"),
-      chalk     = require("chalk"),
-      fs        = require("fs"),
-      { join }  = require("path"),
-      errors    = require("./commands/errors")
+const Command       = require("./commands/command")
+const errors        = require("./commands/errors")
+const discord       = require("discord.js")
+const chalk         = require("chalk")
+const { join }      = require("path")
+const fs            = require("fs")
 
 /**
  * Класс клиента который наследует класс клиента из Discord.JS.
@@ -49,10 +49,18 @@ module.exports = class Client extends discord.Client {
         this.commands = []
 
         /**
+         * Музыкальная очередь.
+         * Ключ - ID сервера,
+         * значение - массив ссылок.
+         * @type {Map<string, Array<String>>}
+         */
+        this.queue = new Map()
+
+        /**
          * Массив хранящий в себе все обработчики событий.
          * @type {Array<Listener>}
          */
-        this.listenersObjects = [] // Назвал бы просто listeners, но это имя уже используется и если его использовать, то события поломаются
+        this.listenersObjects = []
 
         /**
          * Путь к папке где расположены файлы с событиями.
@@ -60,7 +68,12 @@ module.exports = class Client extends discord.Client {
          */
         this.listenersDir = join(__dirname, "..", listenersDir ? listenersDir : "listeners")
 
+        /**
+         * Путь к папке где расположены файлы с командами.
+         * @type {string}
+         */
         this.commandsDir = join(__dirname, "..", commandsDir ? commandsDir : "commands")
+        
         this._init()
     }
 
@@ -114,13 +127,13 @@ module.exports = class Client extends discord.Client {
     loadCommands(path = this.commandsDir) {
         for (let file of fs.readdirSync(path, {withFileTypes: true})) {
             if (file.isFile() && file.name.endsWith(".js")) {
-                //try {
+                try {
                     const command = require(`${path}/${file.name}`)
                     this.commands.push(command);
                     console.log(chalk.green(`+ ${file.name}`))
-                /*} catch (e) {
+                } catch (e) {
                     console.log(chalk.red(`Не удалось загрузить команду ${file.name}.\nОшибка: ${e}`))
-                }*/
+                }
             }
             if (file.isDirectory())
                 this.loadCommands(`${path}/${file.name}`)

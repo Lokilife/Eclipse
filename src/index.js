@@ -5,6 +5,11 @@ const discord                       = require('discord.js')
 const mongoose                      = require('mongoose')
 const chalk                         = require('chalk')
 
+// Модифицируем класс APIMessage из Discord.JS, чтобы работали нужные нам функции,
+// но так чтобы все функции в этой же библиотеке работали на нашем модифицированном APIMessage.
+// Т. е. мы просто изменяем прототип класса и всё.
+require('./lib/apiMessage')
+
 console.log(chalk.yellow(
     `Добро пожаловать в Eclipse!
         Версия: ${version}.

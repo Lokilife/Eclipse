@@ -11,7 +11,7 @@ module.exports = {
      */
     run: async function(client, oldState, newState) {
         const guild = await Guilds.findOne({_id: newState.guild.id.toString()}).exec()
-        let   privateVoice = PrivateVoices.findOne({_id: newState.member.id}).exec()
+        let   privateVoice = PrivateVoices.findOne({_id: oldState.member ? oldState.member.id : newState.member.id}).exec()
 
         const channel = oldState.guild.channels.cache.get(guild.privateVoices.channel)
 

@@ -6,7 +6,7 @@ module.exports = {
      * @param {Client} client 
      * @param {Array<String>} args 
      */
-    run: async function(message) {
+    run: async function(message, l_client, args, check_joined = true) {
         const member = message.member,
               voice = member.voice,
               channel = voice.channel,
@@ -19,12 +19,13 @@ module.exports = {
         if (!channel.joinable)
             return await message.channel.send("**❌ I don't have the permissions to connect to your voice channel.**")
         
-        if (client.voice && client.voice.channel)
+        if ((check_joined && client.voice && client.voice.channel) ||
+            (client.voice.channel && client.voice.channel.id != voice.channel.id))
             return await message.channel.send("**❌ I'm already connected to another voice channel.**")
-        
-        await channel.join()
 
-        await message.channel.send(`**👍 I'm connected to 🔉 \`${channel.name}\`!**`)
+        await channel.join()
+        await message.channel.send(`**👍 I'm connected to** 🔉 \`${channel.name}\`**!**`, {reply_message: message})
+        return true
     },
     aliases: ["join", "j"],
     help: {
@@ -33,5 +34,4 @@ module.exports = {
         "arguments": `**Нет**`,
         "usage": `**${config.prefix}join** - Бот подключится к вашему голосовому каналу`,
     },
-    botPermissions: ["CONNECT"]
 }

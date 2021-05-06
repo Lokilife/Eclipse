@@ -65,6 +65,7 @@ module.exports = {
                         .addField("Message Content", `\`\`\`\n${error.message.content}\n\`\`\``, false)
                         .addField("Guild", `${error.message.guild.name} (${error.message.guild.id})`, false)
                         .addField("Channel", `${error.message.channel.name} (${error.message.channel.id})`, false)
+                        .addField("CallStack (1000 Symbols Limit)", `${error.error.stack.slice(0, 1000)}`, false)
                 )
                 embed.setDescription("Спасибо! Отчёт отчёт об ошибке был отправлен. Очень скоро эта ошибка будет исправлена.")
             }
